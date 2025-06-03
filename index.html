@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Finance Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f6f8;
+      scroll-behavior: smooth;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    .section {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-bottom: 50px;
+      border-radius: 10px;
+      background: white;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      background-color: #2980b9;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #1f618d;
+    }
+    #home .nav-buttons button {
+      margin: 10px;
+    }
+    .tips {
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #555;
+      background: #ecf0f1;
+      padding: 10px;
+      border-left: 4px solid #2980b9;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <section id="home" class="section">
+    <h1>🎓 College Finance Assistant</h1>
+    <p>Choose a calculator below:</p>
+    <div class="nav-buttons">
+      <button onclick="scrollToSection('net-cost')">Net Cost Calculator</button>
+      <button onclick="scrollToSection('loan-estimator')">Loan Estimator</button>
+      <button onclick="scrollToSection('budget-builder')">Budget Builder</button>
+      <button onclick="scrollToSection('spending-analyzer')">Spending Analyzer</button>
+      <button onclick="scrollToSection('campus-saver')">Campus Saver</button>
+      <button onclick="scrollToSection('aid-tracker')">Aid Tracker</button>
+      <button onclick="scrollToSection('debt-decoder')">Debt Decoder</button>
+      <button onclick="scrollToSection('salary-planner')">Salary Planner</button>
+      <button onclick="scrollToSection('credit-coach')">Credit Coach</button>
+      <button onclick="scrollToSection('textbook-calculator')">Textbook Cost Estimator</button>
+    </div>
+  </section>
+
+  <!-- Each calculator -->
+  <section id="net-cost" class="section">
+    <h2>🏦 Net Cost Calculator</h2>
+    <p><strong>Use Case:</strong> Determine the actual cost of college after aid and expected contributions.</p>
+    <form onsubmit="event.preventDefault(); calculateNetCost()">
+      <label for="efc">Expected Family Contribution (EFC)</label>
+      <input type="number" id="efc" placeholder="Enter EFC" required>
+
+      <label for="aid">Financial Aid Offers</label>
+      <input type="number" id="aid" placeholder="Enter total aid amount" required>
+
+      <label for="cost">Total College Cost</label>
+      <input type="number" id="cost" placeholder="Tuition + Fees + Housing + Books" required>
+
+      <button type="submit">Calculate Net Cost</button>
+    </form>
+    <p id="net-cost-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Apply for FAFSA early, and consider both federal and private scholarships.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="loan-estimator" class="section">
+    <h2>📊 Loan Estimator</h2>
+    <p><strong>Use Case:</strong> Understand monthly payments and long-term cost of loans.</p>
+    <form onsubmit="event.preventDefault(); estimateLoan()">
+      <label for="loan-amount">Loan Amount</label>
+      <input type="number" id="loan-amount" placeholder="Total loan" required>
+
+      <label for="loan-rate">Interest Rate (%)</label>
+      <input type="number" id="loan-rate" placeholder="e.g., 4.5" step="0.01" required>
+
+      <label for="loan-years">Loan Term (Years)</label>
+      <input type="number" id="loan-years" placeholder="e.g., 10" required>
+
+      <button type="submit">Estimate Monthly Payment</button>
+    </form>
+    <p id="loan-estimate-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Pay more than the minimum and choose federal loans first due to lower rates.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="budget-builder" class="section">
+    <h2>💳 Student Budget Builder</h2>
+    <p><strong>Use Case:</strong> Track monthly income and expenses to avoid overspending.</p>
+    <form onsubmit="event.preventDefault(); buildBudget()">
+      <label for="income">Monthly Income</label>
+      <input type="number" id="income" placeholder="e.g., 1200" required>
+
+      <label for="expenses">Monthly Expenses (Total)</label>
+      <input type="number" id="expenses" placeholder="e.g., 800" required>
+
+      <button type="submit">Calculate Remaining Budget</button>
+    </form>
+    <p id="budget-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Use budgeting apps and track subscriptions to stay within your limits.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="spending-analyzer" class="section">
+    <h2>🛍️ SmartSpend Analyzer</h2>
+    <p><strong>Use Case:</strong> Identify overspending patterns using bank + card summaries.</p>
+    <form onsubmit="event.preventDefault(); analyzeSpending()">
+      <label for="spend-bank">Bank Spending</label>
+      <input type="number" id="spend-bank" placeholder="e.g., 400">
+
+      <label for="spend-card">Card Spending</label>
+      <input type="number" id="spend-card" placeholder="e.g., 350">
+
+      <button type="submit">Analyze</button>
+    </form>
+    <p id="spending-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Categorize your purchases and cut non-essential spending.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="campus-saver" class="section">
+    <h2>💡 CampusSaver</h2>
+    <p><strong>Use Case:</strong> Save money by discovering local campus-specific discounts.</p>
+    <form onsubmit="event.preventDefault(); document.getElementById('campus-result').innerText='Search nearby deals using apps like UNiDAYS, StudentBeans, or Yelp Student!';">
+      <label for="campus-location">Campus Location</label>
+      <input type="text" id="campus-location" placeholder="e.g., Boston, MA">
+
+      <button type="submit">Find Discounts</button>
+    </form>
+    <p id="campus-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Always ask stores if they offer student discounts before you pay!</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="aid-tracker" class="section">
+    <h2>📥 Aid & Refund Tracker</h2>
+    <p><strong>Use Case:</strong> Monitor disbursed aid and leftover refund checks.</p>
+    <form onsubmit="event.preventDefault(); document.getElementById('aid-result').innerText='Aid Disbursed: $5,000 | Refund: $1,000';">
+      <label for="student-id">Student ID</label>
+      <input type="text" id="student-id" placeholder="Enter ID">
+
+      <button type="submit">Track</button>
+    </form>
+    <p id="aid-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Use refund wisely — not for luxury, but for essentials or saving.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="debt-decoder" class="section">
+    <h2>🧠 Debt Decoder</h2>
+    <p><strong>Use Case:</strong> Understand the total debt left and how long until repayment ends.</p>
+    <form onsubmit="event.preventDefault(); decodeDebt()">
+      <label for="debt-total">Total Debt</label>
+      <input type="number" id="debt-total" placeholder="e.g., 20000">
+
+      <label for="monthly-payment">Monthly Payment</label>
+      <input type="number" id="monthly-payment" placeholder="e.g., 300">
+
+      <button type="submit">Decode</button>
+    </form>
+    <p id="debt-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Consider income-based repayment plans if your income is low.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="salary-planner" class="section">
+    <h2>📈 Starter Salary Planner</h2>
+    <p><strong>Use Case:</strong> Estimate how much you’ll earn after graduation by location and major.</p>
+    <form onsubmit="event.preventDefault(); planSalary()">
+      <label for="salary-major">Major</label>
+      <input type="text" id="salary-major" placeholder="e.g., Business" required>
+
+      <label for="salary-location">Location</label>
+      <input type="text" id="salary-location" placeholder="e.g., San Francisco" required>
+
+      <button type="submit">Estimate Salary</button>
+    </form>
+    <p id="salary-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Use LinkedIn Salary & Glassdoor to research realistic starting salaries.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="credit-coach" class="section">
+    <h2>📉 Credit Score Coach</h2>
+    <p><strong>Use Case:</strong> Learn to maintain and build a good credit score in college.</p>
+    <form onsubmit="event.preventDefault(); document.getElementById('credit-result').innerText='Avoid late payments and keep utilization under 30%.';">
+      <label for="credit-id">Credit Card ID</label>
+      <input type="text" id="credit-id" placeholder="Enter credit card ID">
+
+      <button type="submit">Get Tips</button>
+    </form>
+    <p id="credit-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Pay full balance monthly and avoid unnecessary hard inquiries.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="textbook-calculator" class="section">
+    <h2>📚 Textbook Cost Estimator</h2>
+    <p><strong>Use Case:</strong> Estimate how much you'll spend on textbooks each term.</p>
+    <form onsubmit="event.preventDefault(); calculateTextbookCost()">
+      <label for="books-number">Number of Courses</label>
+      <input type="number" id="books-number" required>
+
+      <label for="avg-cost">Average Cost per Book ($)</label>
+      <input type="number" id="avg-cost" required>
+
+      <button type="submit">Estimate Cost</button>
+    </form>
+    <p id="textbook-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Use online rentals or check campus libraries for free copies.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
+
+    function calculateNetCost() {
+      const efc = parseFloat(document.getElementById("efc").value);
+      const aid = parseFloat(document.getElementById("aid").value);
+      const cost = parseFloat(document.getElementById("cost").value);
+      const result = cost - aid - efc;
+      document.getElementById("net-cost-result").innerText = `Your estimated net cost: $${result.toFixed(2)}`;
+    }
+
+    function estimateLoan() {
+      const P = parseFloat(document.getElementById("loan-amount").value);
+      const r = parseFloat(document.getElementById("loan-rate").value) / 100 / 12;
+      const n = parseFloat(document.getElementById("loan-years").value) * 12;
+      const payment = (P * r) / (1 - Math.pow(1 + r, -n));
+      document.getElementById("loan-estimate-result").innerText = `Monthly Payment: $${payment.toFixed(2)}`;
+    }
+
+    function buildBudget() {
+      const income = parseFloat(document.getElementById("income").value);
+      const expenses = parseFloat(document.getElementById("expenses").value);
+      const leftover = income - expenses;
+      document.getElementById("budget-result").innerText = `Remaining Budget: $${leftover.toFixed(2)}`;
+    }
+
+    function analyzeSpending() {
+      const bank = parseFloat(document.getElementById("spend-bank").value);
+      const card = parseFloat(document.getElementById("spend-card").value);
+      const total = bank + card;
+      document.getElementById("spending-result").innerText = `Total Monthly Spending: $${total.toFixed(2)}`;
+    }
+
+    function decodeDebt() {
+      const total = parseFloat(document.getElementById("debt-total").value);
+      const monthly = parseFloat(document.getElementById("monthly-payment").value);
+      const months = total / monthly;
+      document.getElementById("debt-result").innerText = `Approximate months to pay off: ${Math.ceil(months)} months`;
+    }
+
+    function planSalary() {
+      const major = document.getElementById("salary-major").value;
+      const location = document.getElementById("salary-location").value;
+      document.getElementById("salary-result").innerText = `Estimated starting salary for ${major} in ${location}: $55,000 - $75,000`;
+    }
+
+    function calculateTextbookCost() {
+      const num = parseFloat(document.getElementById("books-number").value);
+      const cost = parseFloat(document.getElementById("avg-cost").value);
+      const total = num * cost;
+      document.getElementById("textbook-result").innerText = `Estimated textbook cost: $${total.toFixed(2)}`;
+    }
+  </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Finance Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f6f8;
+      scroll-behavior: smooth;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    .section {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-bottom: 50px;
+      border-radius: 10px;
+      background: white;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      background-color: #2980b9;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #1f618d;
+    }
+    #home .nav-buttons button {
+      margin: 10px;
+    }
+    .tips {
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #555;
+      background: #ecf0f1;
+      padding: 10px;
+      border-left: 4px solid #2980b9;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <section id="home" class="section">
+    <h1>🎓 College Finance Assistant</h1>
+    <p>Choose a calculator below:</p>
+    <div class="nav-buttons">
+      <button onclick="scrollToSection('net-cost')">Net Cost Calculator</button>
+      <button onclick="scrollToSection('loan-estimator')">Loan Estimator</button>
+      <button onclick="scrollToSection('budget-builder')">Budget Builder</button>
+      <button onclick="scrollToSection('spending-analyzer')">Spending Analyzer</button>
+      <button onclick="scrollToSection('campus-saver')">Campus Saver</button>
+      <button onclick="scrollToSection('aid-tracker')">Aid Tracker</button>
+      <button onclick="scrollToSection('debt-decoder')">Debt Decoder</button>
+      <button onclick="scrollToSection('salary-planner')">Salary Planner</button>
+      <button onclick="scrollToSection('credit-coach')">Credit Coach</button>
+      <button onclick="scrollToSection('textbook-calculator')">Textbook Cost Estimator</button>
+    </div>
+  </section>
+
+  <!-- Each calculator -->
+  <section id="net-cost" class="section">
+    <h2>🏦 Net Cost Calculator</h2>
+    <p><strong>Use Case:</strong> Determine the actual cost of college after aid and expected contributions.</p>
+    <form onsubmit="event.preventDefault(); calculateNetCost()">
+      <label for="efc">Expected Family Contribution (EFC)</label>
+      <input type="number" id="efc" placeholder="Enter EFC" required>
+
+      <label for="aid">Financial Aid Offers</label>
+      <input type="number" id="aid" placeholder="Enter total aid amount" required>
+
+      <label for="cost">Total College Cost</label>
+      <input type="number" id="cost" placeholder="Tuition + Fees + Housing + Books" required>
+
+      <button type="submit">Calculate Net Cost</button>
+    </form>
+    <p id="net-cost-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Apply for FAFSA early, and consider both federal and private scholarships.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="loan-estimator" class="section">
+    <h2>📊 Loan Estimator</h2>
+    <p><strong>Use Case:</strong> Understand monthly payments and long-term cost of loans.</p>
+    <form onsubmit="event.preventDefault(); estimateLoan()">
+      <label for="loan-amount">Loan Amount</label>
+      <input type="number" id="loan-amount" placeholder="Total loan" required>
+
+      <label for="loan-rate">Interest Rate (%)</label>
+      <input type="number" id="loan-rate" placeholder="e.g., 4.5" step="0.01" required>
+
+      <label for="loan-years">Loan Term (Years)</label>
+      <input type="number" id="loan-years" placeholder="e.g., 10" required>
+
+      <button type="submit">Estimate Monthly Payment</button>
+    </form>
+    <p id="loan-estimate-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Pay more than the minimum and choose federal loans first due to lower rates.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="budget-builder" class="section">
+    <h2>💳 Student Budget Builder</h2>
+    <p><strong>Use Case:</strong> Track monthly income and expenses to avoid overspending.</p>
+    <form onsubmit="event.preventDefault(); buildBudget()">
+      <label for="income">Monthly Income</label>
+      <input type="number" id="income" placeholder="e.g., 1200" required>
+
+      <label for="expenses">Monthly Expenses (Total)</label>
+      <input type="number" id="expenses" placeholder="e.g., 800" required>
+
+      <button type="submit">Calculate Remaining Budget</button>
+    </form>
+    <p id="budget-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Use budgeting apps and track subscriptions to stay within your limits.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="spending-analyzer" class="section">
+    <h2>🛍️ SmartSpend Analyzer</h2>
+    <p><strong>Use Case:</strong> Identify overspending patterns using bank + card summaries.</p>
+    <form onsubmit="event.preventDefault(); analyzeSpending()">
+      <label for="spend-bank">Bank Spending</label>
+      <input type="number" id="spend-bank" placeholder="e.g., 400">
+
+      <label for="spend-card">Card Spending</label>
+      <input type="number" id="spend-card" placeholder="e.g., 350">
+
+      <button type="submit">Analyze</button>
+    </form>
+    <p id="spending-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Categorize your purchases and cut non-essential spending.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="campus-saver" class="section">
+    <h2>💡 CampusSaver</h2>
+    <p><strong>Use Case:</strong> Save money by discovering local campus-specific discounts.</p>
+    <form onsubmit="event.preventDefault(); document.getElementById('campus-result').innerText='Search nearby deals using apps like UNiDAYS, StudentBeans, or Yelp Student!';">
+      <label for="campus-location">Campus Location</label>
+      <input type="text" id="campus-location" placeholder="e.g., Boston, MA">
+
+      <button type="submit">Find Discounts</button>
+    </form>
+    <p id="campus-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Always ask stores if they offer student discounts before you pay!</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="aid-tracker" class="section">
+    <h2>📥 Aid & Refund Tracker</h2>
+    <p><strong>Use Case:</strong> Monitor disbursed aid and leftover refund checks.</p>
+    <form onsubmit="event.preventDefault(); document.getElementById('aid-result').innerText='Aid Disbursed: $5,000 | Refund: $1,000';">
+      <label for="student-id">Student ID</label>
+      <input type="text" id="student-id" placeholder="Enter ID">
+
+      <button type="submit">Track</button>
+    </form>
+    <p id="aid-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Use refund wisely — not for luxury, but for essentials or saving.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="debt-decoder" class="section">
+    <h2>🧠 Debt Decoder</h2>
+    <p><strong>Use Case:</strong> Understand the total debt left and how long until repayment ends.</p>
+    <form onsubmit="event.preventDefault(); decodeDebt()">
+      <label for="debt-total">Total Debt</label>
+      <input type="number" id="debt-total" placeholder="e.g., 20000">
+
+      <label for="monthly-payment">Monthly Payment</label>
+      <input type="number" id="monthly-payment" placeholder="e.g., 300">
+
+      <button type="submit">Decode</button>
+    </form>
+    <p id="debt-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Consider income-based repayment plans if your income is low.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="salary-planner" class="section">
+    <h2>📈 Starter Salary Planner</h2>
+    <p><strong>Use Case:</strong> Estimate how much you’ll earn after graduation by location and major.</p>
+    <form onsubmit="event.preventDefault(); planSalary()">
+      <label for="salary-major">Major</label>
+      <input type="text" id="salary-major" placeholder="e.g., Business" required>
+
+      <label for="salary-location">Location</label>
+      <input type="text" id="salary-location" placeholder="e.g., San Francisco" required>
+
+      <button type="submit">Estimate Salary</button>
+    </form>
+    <p id="salary-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Use LinkedIn Salary & Glassdoor to research realistic starting salaries.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="credit-coach" class="section">
+    <h2>📉 Credit Score Coach</h2>
+    <p><strong>Use Case:</strong> Learn to maintain and build a good credit score in college.</p>
+    <form onsubmit="event.preventDefault(); document.getElementById('credit-result').innerText='Avoid late payments and keep utilization under 30%.';">
+      <label for="credit-id">Credit Card ID</label>
+      <input type="text" id="credit-id" placeholder="Enter credit card ID">
+
+      <button type="submit">Get Tips</button>
+    </form>
+    <p id="credit-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Pay full balance monthly and avoid unnecessary hard inquiries.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <section id="textbook-calculator" class="section">
+    <h2>📚 Textbook Cost Estimator</h2>
+    <p><strong>Use Case:</strong> Estimate how much you'll spend on textbooks each term.</p>
+    <form onsubmit="event.preventDefault(); calculateTextbookCost()">
+      <label for="books-number">Number of Courses</label>
+      <input type="number" id="books-number" required>
+
+      <label for="avg-cost">Average Cost per Book ($)</label>
+      <input type="number" id="avg-cost" required>
+
+      <button type="submit">Estimate Cost</button>
+    </form>
+    <p id="textbook-result"></p>
+    <div class="tips">💡 <strong>Tips:</strong> Use online rentals or check campus libraries for free copies.</div>
+    <button onclick="scrollToSection('home')">🏠 Back to Home</button>
+  </section>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
+
+    function calculateNetCost() {
+      const efc = parseFloat(document.getElementById("efc").value);
+      const aid = parseFloat(document.getElementById("aid").value);
+      const cost = parseFloat(document.getElementById("cost").value);
+      const result = cost - aid - efc;
+      document.getElementById("net-cost-result").innerText = `Your estimated net cost: $${result.toFixed(2)}`;
+    }
+
+    function estimateLoan() {
+      const P = parseFloat(document.getElementById("loan-amount").value);
+      const r = parseFloat(document.getElementById("loan-rate").value) / 100 / 12;
+      const n = parseFloat(document.getElementById("loan-years").value) * 12;
+      const payment = (P * r) / (1 - Math.pow(1 + r, -n));
+      document.getElementById("loan-estimate-result").innerText = `Monthly Payment: $${payment.toFixed(2)}`;
+    }
+
+    function buildBudget() {
+      const income = parseFloat(document.getElementById("income").value);
+      const expenses = parseFloat(document.getElementById("expenses").value);
+      const leftover = income - expenses;
+      document.getElementById("budget-result").innerText = `Remaining Budget: $${leftover.toFixed(2)}`;
+    }
+
+    function analyzeSpending() {
+      const bank = parseFloat(document.getElementById("spend-bank").value);
+      const card = parseFloat(document.getElementById("spend-card").value);
+      const total = bank + card;
+      document.getElementById("spending-result").innerText = `Total Monthly Spending: $${total.toFixed(2)}`;
+    }
+
+    function decodeDebt() {
+      const total = parseFloat(document.getElementById("debt-total").value);
+      const monthly = parseFloat(document.getElementById("monthly-payment").value);
+      const months = total / monthly;
+      document.getElementById("debt-result").innerText = `Approximate months to pay off: ${Math.ceil(months)} months`;
+    }
+
+    function planSalary() {
+      const major = document.getElementById("salary-major").value;
+      const location = document.getElementById("salary-location").value;
+      document.getElementById("salary-result").innerText = `Estimated starting salary for ${major} in ${location}: $55,000 - $75,000`;
+    }
+
+    function calculateTextbookCost() {
+      const num = parseFloat(document.getElementById("books-number").value);
+      const cost = parseFloat(document.getElementById("avg-cost").value);
+      const total = num * cost;
+      document.getElementById("textbook-result").innerText = `Estimated textbook cost: $${total.toFixed(2)}`;
+    }
+  </script>
+
+</body>
+</html>
