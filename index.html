@@ -3,171 +3,160 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>College Finance Assistant with 17 Calculators</title>
+<title>College Finance Assistant</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
   body {
-    font-family: Arial, sans-serif;
-    background-color: #e6f0ff;
-    color: #0d1a33;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 20px;
+    background: #f0f4f8;
+    color: #222;
     transition: background-color 0.3s, color 0.3s;
   }
-  body.dark-mode {
-    background-color: #0d1a33;
-    color: #a0c4ff;
+
+  .dark-mode {
+    background: #121b33;
+    color: #ddd;
   }
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 900px;
-    margin: auto;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #3366cc;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
   }
+
   .buttons {
-    margin: 20px auto;
-    max-width: 900px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 8px;
+    margin-bottom: 20px;
   }
-  button {
-    background-color: #3366cc;
-    color: white;
+
+  .buttons button {
+    background: #0057b7;
     border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
+    color: white;
+    padding: 10px 14px;
+    font-weight: 600;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 0.9rem;
-    flex: 1 0 30%;
-    min-width: 140px;
+    transition: background-color 0.3s ease;
   }
-  button:hover {
-    background-color: #5588ff;
+
+  .buttons button:hover {
+    background: #004a9a;
   }
+
   .calculator {
     display: none;
-    max-width: 900px;
-    margin: 20px auto;
-    background: #cce0ff;
+    max-width: 480px;
+    margin: 0 auto 40px auto;
     padding: 20px;
+    background: white;
     border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
-    transition: background 0.3s, color 0.3s;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
   }
-  body.dark-mode .calculator {
-    background: #1a2a66;
-    color: #a0c4ff;
-    box-shadow: 0 0 12px #4477ff;
+
+  .dark-mode .calculator {
+    background: #1e2a53;
+    box-shadow: 0 2px 8px rgb(255 255 255 / 0.1);
   }
+
   label {
     display: block;
-    margin-top: 10px;
+    margin-bottom: 12px;
+    font-weight: 600;
   }
-  input[type="number"], input[type="text"] {
+
+  input[type="number"],
+  input[type="text"] {
     width: 100%;
     padding: 8px;
-    margin-top: 5px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button.calc-btn {
+    background: #0057b7;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-weight: 700;
+    font-size: 1em;
     border-radius: 5px;
-    border: 1px solid #3366cc;
-    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
   }
-  body.dark-mode input[type="number"], body.dark-mode input[type="text"] {
-    background: #0d1a33;
-    color: #a0c4ff;
-    border-color: #5599ff;
+
+  button.calc-btn:hover {
+    background: #004a9a;
   }
+
   .result {
     margin-top: 15px;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 1.1em;
   }
+
   .tips {
-    background: #d6e4ff;
-    padding: 10px;
     margin-top: 15px;
-    border-left: 5px solid #3366cc;
+    font-size: 0.9em;
+    background: #e1e8f7;
+    padding: 12px 15px;
     border-radius: 6px;
-    font-size: 0.9rem;
+    color: #222;
   }
-  body.dark-mode .tips {
-    background: #253b80;
-    border-left-color: #5599ff;
+
+  .dark-mode .tips {
+    background: #223258;
+    color: #ddd;
   }
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 26px;
+
+  /* Dark mode toggle styling without shine */
+  .dark-mode-toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
   }
-  .switch input {
-    opacity: 0;
-    width: 0; 
-    height: 0;
-  }
-  .slider {
-    position: absolute;
+
+  .dark-mode-toggle-container label {
     cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 26px;
+    user-select: none;
+    font-weight: 600;
   }
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 20px; width: 20px;
-    left: 3px; bottom: 3px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-  }
-  input:checked + .slider {
-    background-color: #3366cc;
-  }
-  input:checked + .slider:before {
-    transform: translateX(24px);
-  }
-  #logoutBtn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #cc3333;
-    padding: 12px 18px;
-    border-radius: 8px;
-    font-weight: bold;
-    border: none;
-    color: white;
+
+  .dark-mode-toggle-container input[type="checkbox"] {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  #logoutBtn:hover {
-    background-color: #ff5555;
+    accent-color: #0057b7; /* subtle blue highlight */
   }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>🎓 College Finance Assistant</h1>
-  <label class="switch" title="Toggle dark mode">
-    <input type="checkbox" id="darkModeToggle" />
-    <span class="slider"></span>
-  </label>
-</header>
+<h1>College Finance Assistant</h1>
+
+<div class="dark-mode-toggle-container">
+  <label for="darkModeToggle">Dark Mode</label>
+  <input type="checkbox" id="darkModeToggle" />
+</div>
 
 <div class="buttons">
   <button data-target="netCostCalc">Net Cost</button>
-  <button data-target="loanEstimatorCalc">Loan Estimator</button>
-  <button data-target="budgetBuilderCalc">Budget Builder</button>
-  <button data-target="spendingAnalyzerCalc">Spending Analyzer</button>
+  <button data-target="loanCalc">Loan Estimator</button>
+  <button data-target="budgetCalc">Budget Builder</button>
+  <button data-target="spendingCalc">Spending Analyzer</button>
   <button data-target="campusSaverCalc">Campus Saver</button>
-  <button data-target="debtDecoderCalc">Debt Decoder</button>
-  <button data-target="salaryPlannerCalc">Salary Planner</button>
-  <button data-target="creditCoachCalc">Credit Coach</button>
-  <button data-target="textbookCalc">Textbook Costs</button>
+  <button data-target="debtCalc">Debt Decoder</button>
+  <button data-target="salaryCalc">Salary Planner</button>
+  <button data-target="creditCalc">Credit Coach</button>
+  <button data-target="textbookCalc">Textbook Calculator</button>
   <button data-target="savingsGoalCalc">Savings Goal</button>
   <button data-target="financialAidCalc">Financial Aid Finder</button>
   <button data-target="partTimeCalc">Part-Time Work</button>
@@ -178,90 +167,90 @@
   <button data-target="emergencyFundCalc">Emergency Fund</button>
 </div>
 
-<div id="tools">
+<div id="calculators">
 
 <!-- 1. Net Cost -->
 <div id="netCostCalc" class="calculator">
   <h2>Net Cost Calculator</h2>
-  <label>Tuition ($): <input type="number" id="tuition" min="0" value="10000" /></label>
-  <label>Grants & Scholarships ($): <input type="number" id="grants" min="0" value="2000" /></label>
-  <label>Other Costs ($): <input type="number" id="otherCosts" min="0" value="3000" /></label>
-  <button onclick="calculateNetCost()">Calculate</button>
+  <label>Tuition and Fees ($): <input type="number" id="tuition" min="0" value="15000" /></label>
+  <label>Grants and Scholarships ($): <input type="number" id="grants" min="0" value="5000" /></label>
+  <label>Other Costs ($): <input type="number" id="otherCosts" min="0" value="2000" /></label>
+  <button class="calc-btn" onclick="calculateNetCost()">Calculate</button>
   <div id="netCostResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Apply early for scholarships.</li>
-      <li>Explore grants specific to your major or background.</li>
-      <li>Consider in-state vs out-of-state tuition differences.</li>
-      <li>Check if your school offers payment plans.</li>
-      <li>Look for work-study opportunities.</li>
-      <li>Reduce living costs by choosing affordable housing.</li>
-      <li>Plan your budget for books and supplies.</li>
+      <li>Compare net costs between colleges.</li>
+      <li>Consider grants over loans to reduce debt.</li>
+      <li>Include all expenses for realistic budgeting.</li>
+      <li>Ask financial aid offices about additional help.</li>
+      <li>Look for outside scholarships to reduce costs.</li>
+      <li>Check if costs change yearly and plan accordingly.</li>
+      <li>Use net cost to guide college decision-making.</li>
     </ul>
   </div>
 </div>
 
 <!-- 2. Loan Estimator -->
-<div id="loanEstimatorCalc" class="calculator">
+<div id="loanCalc" class="calculator">
   <h2>Loan Estimator</h2>
   <label>Loan Amount ($): <input type="number" id="loanAmount" min="0" value="10000" /></label>
-  <label>Interest Rate (% per year): <input type="number" id="interestRate" min="0" step="0.01" value="5.0" /></label>
+  <label>Interest Rate (% per year): <input type="number" id="interestRate" min="0" step="0.01" value="5" /></label>
   <label>Loan Term (years): <input type="number" id="loanTerm" min="1" value="10" /></label>
-  <button onclick="calculateLoan()">Calculate</button>
+  <button class="calc-btn" onclick="calculateLoan()">Calculate</button>
   <div id="loanResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
       <li>Pay extra when possible to reduce interest.</li>
-      <li>Understand federal vs private loan terms.</li>
-      <li>Keep track of repayment deadlines.</li>
-      <li>Check if loans offer deferment or forgiveness options.</li>
-      <li>Consider consolidating loans carefully.</li>
-      <li>Make interest payments during school if you can.</li>
-      <li>Use loan calculators to plan payments ahead.</li>
+      <li>Understand loan terms before borrowing.</li>
+      <li>Compare federal and private loan rates.</li>
+      <li>Make on-time payments to build credit.</li>
+      <li>Use loan calculators to plan repayments.</li>
+      <li>Consider loan forgiveness programs.</li>
+      <li>Keep track of total repayment amount.</li>
     </ul>
   </div>
 </div>
 
 <!-- 3. Budget Builder -->
-<div id="budgetBuilderCalc" class="calculator">
+<div id="budgetCalc" class="calculator">
   <h2>Budget Builder</h2>
   <label>Monthly Income ($): <input type="number" id="monthlyIncome" min="0" value="1500" /></label>
-  <label>Monthly Expenses ($): <input type="number" id="monthlyExpenses" min="0" value="1000" /></label>
-  <button onclick="calculateBudget()">Calculate</button>
+  <label>Monthly Expenses ($): <input type="number" id="monthlyExpenses" min="0" value="1200" /></label>
+  <button class="calc-btn" onclick="calculateBudget()">Calculate</button>
   <div id="budgetResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Track all income and expenses carefully.</li>
-      <li>Set aside savings before spending.</li>
-      <li>Prioritize essential expenses over wants.</li>
-      <li>Review your budget monthly and adjust.</li>
-      <li>Use budgeting apps for easier tracking.</li>
-      <li>Build an emergency fund.</li>
-      <li>Limit impulse purchases.</li>
+      <li>Track spending regularly to stay on budget.</li>
+      <li>Cut unnecessary expenses to save more.</li>
+      <li>Set aside money for savings and emergencies.</li>
+      <li>Use budgeting apps or spreadsheets.</li>
+      <li>Review budget monthly and adjust as needed.</li>
+      <li>Include irregular expenses in planning.</li>
+      <li>Prioritize essential spending over wants.</li>
     </ul>
   </div>
 </div>
 
 <!-- 4. Spending Analyzer -->
-<div id="spendingAnalyzerCalc" class="calculator">
+<div id="spendingCalc" class="calculator">
   <h2>Spending Analyzer</h2>
-  <label>Total Monthly Spending ($): <input type="number" id="totalSpending" min="0" value="1200" /></label>
-  <label>Entertainment Spending ($): <input type="number" id="entertainmentSpending" min="0" value="200" /></label>
-  <button onclick="analyzeSpending()">Analyze</button>
+  <label>Total Monthly Spending ($): <input type="number" id="totalSpending" min="0" value="1000" /></label>
+  <label>Entertainment Spending ($): <input type="number" id="entertainmentSpending" min="0" value="150" /></label>
+  <button class="calc-btn" onclick="analyzeSpending()">Analyze</button>
   <div id="spendingResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Track where you spend the most money.</li>
-      <li>Look for subscription overlaps or unused services.</li>
-      <li>Cut back on discretionary spending to save.</li>
-      <li>Use cash envelopes to control spending categories.</li>
-      <li>Plan entertainment spending ahead.</li>
-      <li>Compare prices before buying.</li>
-      <li>Review spending weekly for better control.</li>
+      <li>Limit entertainment to a reasonable portion of budget.</li>
+      <li>Identify areas to reduce discretionary spending.</li>
+      <li>Balance fun and financial responsibility.</li>
+      <li>Track all spending to see patterns.</li>
+      <li>Use percentages to evaluate spending habits.</li>
+      <li>Set spending limits for non-essential categories.</li>
+      <li>Consider free or low-cost entertainment options.</li>
     </ul>
   </div>
 </div>
@@ -269,106 +258,106 @@
 <!-- 5. Campus Saver -->
 <div id="campusSaverCalc" class="calculator">
   <h2>Campus Saver</h2>
-  <label>Expense Amount ($): <input type="number" id="campusExpense" min="0" value="50" /></label>
-  <label>Number of Days per Month: <input type="number" id="campusDays" min="1" max="31" value="10" /></label>
-  <button onclick="calculateCampusSaver()">Calculate</button>
+  <label>Daily Expense ($): <input type="number" id="campusExpense" min="0" value="10" /></label>
+  <label>Number of Days on Campus: <input type="number" id="campusDays" min="0" max="31" value="20" /></label>
+  <button class="calc-btn" onclick="calculateCampusSaver()">Calculate</button>
   <div id="campusSaverResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Look for student discounts on campus.</li>
-      <li>Cook meals instead of eating out.</li>
-      <li>Use campus resources like libraries and events.</li>
-      <li>Buy used textbooks and supplies.</li>
-      <li>Carpool or use public transportation.</li>
-      <li>Track small daily expenses closely.</li>
-      <li>Set monthly saving goals.</li>
+      <li>Track daily expenses to identify savings.</li>
+      <li>Bring snacks or meals to reduce costs.</li>
+      <li>Use student discounts wherever possible.</li>
+      <li>Share transportation and housing expenses.</li>
+      <li>Plan purchases to avoid impulse spending.</li>
+      <li>Use budgeting tools to track campus spending.</li>
+      <li>Save leftover funds for emergencies.</li>
     </ul>
   </div>
 </div>
 
 <!-- 6. Debt Decoder -->
-<div id="debtDecoderCalc" class="calculator">
+<div id="debtCalc" class="calculator">
   <h2>Debt Decoder</h2>
-  <label>Total Debt Amount ($): <input type="number" id="totalDebt" min="0" value="5000" /></label>
+  <label>Total Debt ($): <input type="number" id="totalDebt" min="0" value="5000" /></label>
   <label>Monthly Payment ($): <input type="number" id="monthlyPayment" min="0" value="200" /></label>
-  <label>Interest Rate (%): <input type="number" id="debtInterestRate" min="0" step="0.01" value="7.0" /></label>
-  <button onclick="calculateDebt()">Calculate</button>
+  <label>Annual Interest Rate (%): <input type="number" id="debtInterestRate" min="0" step="0.01" value="7" /></label>
+  <button class="calc-btn" onclick="calculateDebt()">Calculate</button>
   <div id="debtResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Pay more than minimum to reduce interest.</li>
-      <li>Consider debt consolidation for better rates.</li>
-      <li>Track payoff progress to stay motivated.</li>
-      <li>Prioritize high-interest debts first.</li>
-      <li>Don’t accumulate new debt during repayment.</li>
-      <li>Automate payments to avoid late fees.</li>
-      <li>Seek credit counseling if overwhelmed.</li>
+      <li>Make payments above the interest amount to reduce principal.</li>
+      <li>Avoid taking on new debt while paying off existing debt.</li>
+      <li>Consolidate debts if it reduces interest rates.</li>
+      <li>Track your progress to stay motivated.</li>
+      <li>Contact lenders to negotiate lower rates.</li>
+      <li>Prioritize high-interest debt repayment.</li>
+      <li>Create a debt payoff timeline.</li>
     </ul>
   </div>
 </div>
 
 <!-- 7. Salary Planner -->
-<div id="salaryPlannerCalc" class="calculator">
+<div id="salaryCalc" class="calculator">
   <h2>Salary Planner</h2>
   <label>Hourly Wage ($): <input type="number" id="hourlyWage" min="0" value="15" /></label>
-  <label>Hours per Week: <input type="number" id="hoursPerWeek" min="0" max="168" value="40" /></label>
-  <button onclick="calculateSalary()">Calculate</button>
+  <label>Hours per Week: <input type="number" id="hoursPerWeek" min="0" max="168" value="20" /></label>
+  <button class="calc-btn" onclick="calculateSalary()">Calculate</button>
   <div id="salaryResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Track your income and taxes withheld.</li>
-      <li>Consider raises and bonuses in planning.</li>
-      <li>Plan for benefits like health insurance.</li>
-      <li>Budget for retirement savings early.</li>
-      <li>Negotiate salary during job offers.</li>
-      <li>Understand overtime pay rules.</li>
-      <li>Keep an emergency fund for income gaps.</li>
+      <li>Calculate gross and net income.</li>
+      <li>Account for taxes when planning budget.</li>
+      <li>Consider overtime or bonuses.</li>
+      <li>Track hours worked for accurate pay.</li>
+      <li>Plan for savings from income.</li>
+      <li>Explore ways to increase hourly wage.</li>
+      <li>Balance work hours with school responsibilities.</li>
     </ul>
   </div>
 </div>
 
 <!-- 8. Credit Coach -->
-<div id="creditCoachCalc" class="calculator">
+<div id="creditCalc" class="calculator">
   <h2>Credit Coach</h2>
-  <label>Credit Card Balance ($): <input type="number" id="creditBalance" min="0" value="1500" /></label>
-  <label>Credit Limit ($): <input type="number" id="creditLimit" min="0" value="5000" /></label>
-  <label>Monthly Payment ($): <input type="number" id="creditPayment" min="0" value="150" /></label>
-  <button onclick="calculateCredit()">Calculate</button>
+  <label>Credit Card Balance ($): <input type="number" id="creditBalance" min="0" value="500" /></label>
+  <label>Credit Limit ($): <input type="number" id="creditLimit" min="1" value="2000" /></label>
+  <label>Monthly Payment ($): <input type="number" id="creditPayment" min="0" value="100" /></label>
+  <button class="calc-btn" onclick="calculateCredit()">Calculate</button>
   <div id="creditResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Pay bills on time to avoid penalties.</li>
-      <li>Keep your credit utilization below 30%.</li>
-      <li>Monitor your credit report regularly.</li>
-      <li>Don’t close old credit accounts.</li>
-      <li>Limit new credit inquiries.</li>
-      <li>Use credit cards for rewards responsibly.</li>
-      <li>Pay more than the minimum payment when possible.</li>
+      <li>Keep credit utilization below 30%.</li>
+      <li>Make payments on time to build credit.</li>
+      <li>Pay more than minimum to reduce balance faster.</li>
+      <li>Monitor credit reports regularly.</li>
+      <li>Limit new credit applications.</li>
+      <li>Avoid maxing out your cards.</li>
+      <li>Use credit responsibly for long-term benefits.</li>
     </ul>
   </div>
 </div>
 
 <!-- 9. Textbook Calculator -->
 <div id="textbookCalc" class="calculator">
-  <h2>Textbook Cost Calculator</h2>
+  <h2>Textbook Calculator</h2>
   <label>Number of Textbooks: <input type="number" id="textbookCount" min="0" value="5" /></label>
-  <label>Average Cost per Book ($): <input type="number" id="textbookCost" min="0" value="120" /></label>
-  <button onclick="calculateTextbookCost()">Calculate</button>
+  <label>Average Cost per Textbook ($): <input type="number" id="textbookCost" min="0" value="80" /></label>
+  <button class="calc-btn" onclick="calculateTextbookCost()">Calculate</button>
   <div id="textbookResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Buy used or rental textbooks to save.</li>
-      <li>Check if digital versions are cheaper.</li>
-      <li>Sell back books after the semester.</li>
-      <li>Share books with classmates.</li>
-      <li>Use the library for required readings.</li>
-      <li>Compare prices online before buying.</li>
-      <li>Budget for textbook costs early.</li>
+      <li>Buy used or rent textbooks to save money.</li>
+      <li>Check if e-books are cheaper alternatives.</li>
+      <li>Share or borrow books when possible.</li>
+      <li>Sell textbooks after course completion.</li>
+      <li>Compare prices across multiple sellers.</li>
+      <li>Look for scholarship funds that cover books.</li>
+      <li>Plan textbook purchases early to budget accordingly.</li>
     </ul>
   </div>
 </div>
@@ -377,19 +366,19 @@
 <div id="savingsGoalCalc" class="calculator">
   <h2>Savings Goal Calculator</h2>
   <label>Target Amount ($): <input type="number" id="savingsTarget" min="0" value="2000" /></label>
-  <label>Monthly Savings ($): <input type="number" id="monthlySaving" min="0" value="200" /></label>
-  <button onclick="calculateSavingsGoal()">Calculate</button>
+  <label>Monthly Savings ($): <input type="number" id="monthlySaving" min="1" value="200" /></label>
+  <button class="calc-btn" onclick="calculateSavingsGoal()">Calculate</button>
   <div id="savingsGoalResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Set realistic and specific goals.</li>
-      <li>Automate savings to stay consistent.</li>
-      <li>Review and adjust savings plans regularly.</li>
-      <li>Cut unnecessary expenses to boost savings.</li>
-      <li>Track progress visually for motivation.</li>
-      <li>Prioritize emergency savings first.</li>
-      <li>Use high-yield savings accounts.</li>
+      <li>Set realistic and achievable savings goals.</li>
+      <li>Automate monthly savings contributions.</li>
+      <li>Cut unnecessary spending to save more.</li>
+      <li>Track progress regularly to stay motivated.</li>
+      <li>Adjust goals as financial situation changes.</li>
+      <li>Use separate accounts for savings goals.</li>
+      <li>Reward yourself when milestones are reached.</li>
     </ul>
   </div>
 </div>
@@ -397,44 +386,44 @@
 <!-- 11. Financial Aid Finder -->
 <div id="financialAidCalc" class="calculator">
   <h2>Financial Aid Finder</h2>
-  <label>GPA: <input type="number" id="aidGPA" min="0" max="4" step="0.01" value="3.5" /></label>
+  <label>GPA (0-4 scale): <input type="number" id="aidGPA" min="0" max="4" step="0.01" value="3.5" /></label>
   <label>Ethnicity: <input type="text" id="aidEthnicity" placeholder="Optional" /></label>
   <label>Family Income ($): <input type="number" id="aidIncome" min="0" value="40000" /></label>
   <label>Intended Major: <input type="text" id="aidMajor" placeholder="Optional" /></label>
   <label>Location (State): <input type="text" id="aidLocation" placeholder="Optional" /></label>
-  <button onclick="findFinancialAid()">Find Scholarships</button>
+  <button class="calc-btn" onclick="findFinancialAid()">Find Scholarships</button>
   <div id="financialAidResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
       <li>Apply for scholarships matching your profile.</li>
-      <li>Check deadlines carefully and apply early.</li>
-      <li>Keep transcripts and recommendation letters ready.</li>
-      <li>Look for local scholarships in your community.</li>
-      <li>Search for scholarships for your major or interests.</li>
-      <li>Update your applications yearly.</li>
+      <li>Start search early to meet deadlines.</li>
       <li>Use multiple scholarship search engines.</li>
+      <li>Check eligibility criteria carefully.</li>
+      <li>Prepare strong application materials.</li>
+      <li>Include community service and extracurriculars.</li>
+      <li>Keep track of all applications and results.</li>
     </ul>
   </div>
 </div>
 
 <!-- 12. Part-Time Work -->
 <div id="partTimeCalc" class="calculator">
-  <h2>Part-Time Work Calculator</h2>
-  <label>Hourly Wage ($): <input type="number" id="ptHourlyWage" min="0" value="12" /></label>
-  <label>Hours per Week: <input type="number" id="ptHours" min="0" max="40" value="15" /></label>
-  <button onclick="calculatePartTimeIncome()">Calculate</button>
+  <h2>Part-Time Work Planner</h2>
+  <label>Hours per Week: <input type="number" id="workHours" min="0" max="168" value="15" /></label>
+  <label>Hourly Wage ($): <input type="number" id="workWage" min="0" value="12" /></label>
+  <button class="calc-btn" onclick="calculatePartTime()">Calculate Weekly Income</button>
   <div id="partTimeResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Balance work hours with studies.</li>
-      <li>Consider jobs with flexible schedules.</li>
-      <li>Save part of your income consistently.</li>
-      <li>Use work experience on your resume.</li>
-      <li>Understand tax obligations for part-time income.</li>
-      <li>Seek jobs with skill-building opportunities.</li>
-      <li>Watch for overtime pay if applicable.</li>
+      <li>Balance work hours with study time.</li>
+      <li>Choose jobs with flexible schedules.</li>
+      <li>Keep track of income for budgeting.</li>
+      <li>Look for jobs offering skill development.</li>
+      <li>Plan for taxes and withholdings.</li>
+      <li>Consider work-study programs if eligible.</li>
+      <li>Save part of your earnings consistently.</li>
     </ul>
   </div>
 </div>
@@ -442,20 +431,20 @@
 <!-- 13. Meal Plan -->
 <div id="mealPlanCalc" class="calculator">
   <h2>Meal Plan Calculator</h2>
-  <label>Cost per Meal ($): <input type="number" id="mealCost" min="0" value="7" /></label>
-  <label>Meals per Week: <input type="number" id="mealsPerWeek" min="0" max="21" value="14" /></label>
-  <button onclick="calculateMealPlan()">Calculate</button>
+  <label>Number of Meals per Week: <input type="number" id="mealsPerWeek" min="0" value="14" /></label>
+  <label>Average Cost per Meal ($): <input type="number" id="mealCost" min="0" value="6" /></label>
+  <button class="calc-btn" onclick="calculateMealPlan()">Calculate Weekly Meal Cost</button>
   <div id="mealPlanResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Cook meals at home to save money.</li>
-      <li>Buy groceries in bulk for discounts.</li>
-      <li>Use meal prep to avoid food waste.</li>
-      <li>Look for campus meal plan deals.</li>
-      <li>Track your meal expenses weekly.</li>
-      <li>Balance nutrition and cost effectively.</li>
-      <li>Consider sharing meals with roommates.</li>
+      <li>Prepare meals at home to save money.</li>
+      <li>Use student meal plans wisely.</li>
+      <li>Shop for groceries in bulk.</li>
+      <li>Track food spending weekly.</li>
+      <li>Plan meals ahead to avoid waste.</li>
+      <li>Take advantage of campus dining discounts.</li>
+      <li>Include healthy, budget-friendly foods.</li>
     </ul>
   </div>
 </div>
@@ -463,20 +452,25 @@
 <!-- 14. Transportation -->
 <div id="transportationCalc" class="calculator">
   <h2>Transportation Cost Calculator</h2>
-  <label>Daily Commute Cost ($): <input type="number" id="commuteCost" min="0" value="3" /></label>
-  <label>Days per Month: <input type="number" id="commuteDays" min="0" max="31" value="20" /></label>
-  <button onclick="calculateTransportation()">Calculate</button>
+  <label>Monthly Transportation Cost ($): <input type="number" id="transportCost" min="0" value="60" /></label>
+  <label>Use Public Transport? 
+    <select id="publicTransport">
+      <option value="yes" selected>Yes</option>
+      <option value="no">No</option>
+    </select>
+  </label>
+  <button class="calc-btn" onclick="calculateTransportation()">Calculate</button>
   <div id="transportationResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Use public transportation passes for savings.</li>
-      <li>Carpool with friends or classmates.</li>
-      <li>Consider biking or walking if safe.</li>
-      <li>Track your travel expenses monthly.</li>
-      <li>Maintain your vehicle to avoid extra costs.</li>
-      <li>Look for student discounts on transit.</li>
-      <li>Plan trips to combine errands.</li>
+      <li>Compare public transport vs. car costs.</li>
+      <li>Consider biking or walking to save money.</li>
+      <li>Use student transit discounts.</li>
+      <li>Carpool to reduce expenses.</li>
+      <li>Maintain vehicles regularly to avoid repair costs.</li>
+      <li>Plan trips efficiently to save fuel.</li>
+      <li>Track monthly transportation expenses.</li>
     </ul>
   </div>
 </div>
@@ -485,19 +479,19 @@
 <div id="subscriptionCalc" class="calculator">
   <h2>Subscription Tracker</h2>
   <label>Number of Subscriptions: <input type="number" id="subCount" min="0" value="3" /></label>
-  <label>Average Monthly Cost per Subscription ($): <input type="number" id="subCost" min="0" value="15" /></label>
-  <button onclick="calculateSubscription()">Calculate</button>
+  <label>Average Monthly Cost ($): <input type="number" id="subCost" min="0" value="15" /></label>
+  <button class="calc-btn" onclick="calculateSubscriptions()">Calculate Monthly Subscription Cost</button>
   <div id="subscriptionResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Review subscriptions quarterly for usefulness.</li>
-      <li>Cancel unused or redundant services.</li>
-      <li>Look for student or bundle discounts.</li>
-      <li>Track automatic payments to avoid surprises.</li>
-      <li>Consider free alternatives.</li>
+      <li>Review subscriptions regularly and cancel unused ones.</li>
+      <li>Look for student discounts on services.</li>
+      <li>Bundle subscriptions to save money.</li>
+      <li>Track monthly costs to avoid surprises.</li>
+      <li>Consider free alternatives when possible.</li>
       <li>Set reminders for renewal dates.</li>
-      <li>Negotiate better rates if possible.</li>
+      <li>Share subscriptions legally with family/friends.</li>
     </ul>
   </div>
 </div>
@@ -505,20 +499,20 @@
 <!-- 16. Internship Value -->
 <div id="internshipCalc" class="calculator">
   <h2>Internship Value Calculator</h2>
-  <label>Internship Stipend ($): <input type="number" id="internStipend" min="0" value="2000" /></label>
-  <label>Duration (months): <input type="number" id="internMonths" min="1" max="12" value="3" /></label>
-  <button onclick="calculateInternshipValue()">Calculate</button>
+  <label>Stipend ($): <input type="number" id="internStipend" min="0" value="1000" /></label>
+  <label>Weeks Worked: <input type="number" id="internWeeks" min="0" value="10" /></label>
+  <button class="calc-btn" onclick="calculateInternship()">Calculate Total Internship Income</button>
   <div id="internshipResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
       <li>Consider experience gained beyond pay.</li>
-      <li>Network with professionals during internship.</li>
-      <li>Save part of your stipend each month.</li>
-      <li>Look for internships related to your career goals.</li>
-      <li>Track skills and projects completed.</li>
-      <li>Use internship to improve your resume.</li>
-      <li>Plan post-internship job search strategies.</li>
+      <li>Negotiate stipend or hours if possible.</li>
+      <li>Plan budget around internship duration.</li>
+      <li>Network for future opportunities.</li>
+      <li>Track expenses during internship.</li>
+      <li>Balance internship with academic workload.</li>
+      <li>Use internship to improve resume.</li>
     </ul>
   </div>
 </div>
@@ -527,229 +521,227 @@
 <div id="emergencyFundCalc" class="calculator">
   <h2>Emergency Fund Calculator</h2>
   <label>Monthly Expenses ($): <input type="number" id="emergencyExpenses" min="0" value="1200" /></label>
-  <label>Months to Cover: <input type="number" id="emergencyMonths" min="1" max="12" value="3" /></label>
-  <button onclick="calculateEmergencyFund()">Calculate</button>
+  <label>Months to Cover: <input type="number" id="emergencyMonths" min="1" value="3" /></label>
+  <button class="calc-btn" onclick="calculateEmergencyFund()">Calculate Emergency Fund Goal</button>
   <div id="emergencyFundResult" class="result"></div>
   <div class="tips">
     <h3>Tips:</h3>
     <ul>
-      <li>Aim to save 3-6 months of expenses.</li>
-      <li>Keep funds in an accessible, separate account.</li>
-      <li>Contribute regularly to your fund.</li>
-      <li>Avoid using emergency funds for non-emergencies.</li>
-      <li>Replenish fund after any use.</li>
-      <li>Review and increase fund over time.</li>
-      <li>Track your emergency fund growth monthly.</li>
+      <li>Save 3-6 months of expenses for emergencies.</li>
+      <li>Keep emergency funds easily accessible.</li>
+      <li>Use separate savings account.</li>
+      <li>Replenish fund after use.</li>
+      <li>Prioritize fund before discretionary spending.</li>
+      <li>Review fund amount annually.</li>
+      <li>Avoid using fund for non-emergencies.</li>
     </ul>
   </div>
 </div>
 
 </div>
 
-<button id="logoutBtn" title="Logout">Logout</button>
-
 <script>
-  // Show one calculator at a time
-  const buttons = document.querySelectorAll(".buttons button");
-  const calculators = document.querySelectorAll(".calculator");
+  // Show calculator based on button clicked
+  const buttons = document.querySelectorAll('.buttons button');
+  const calculators = document.querySelectorAll('.calculator');
 
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const targetId = btn.getAttribute("data-target");
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-target');
       calculators.forEach(calc => {
-        if (calc.id === targetId) {
-          calc.style.display = "block";
-          window.scrollTo({top: calc.offsetTop - 20, behavior: 'smooth'});
+        if (calc.id === target) {
+          calc.style.display = 'block';
+          window.scrollTo({ top: calc.offsetTop - 10, behavior: 'smooth' });
         } else {
-          calc.style.display = "none";
+          calc.style.display = 'none';
         }
       });
     });
   });
 
-  // Dark mode toggle
-  const toggle = document.getElementById("darkModeToggle");
-  toggle.addEventListener("change", () => {
-    document.body.classList.toggle("dark-mode", toggle.checked);
+  // Dark mode toggle logic
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  darkModeToggle.addEventListener('change', () => {
+    if (darkModeToggle.checked) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
   });
 
-  // Logout button (placeholder)
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    alert("Logout functionality to be implemented.");
-  });
+  // Calculators logic:
 
-  // Calculator functions
-
-  // 1. Net Cost
   function calculateNetCost() {
-    const tuition = +document.getElementById("tuition").value || 0;
-    const grants = +document.getElementById("grants").value || 0;
-    const otherCosts = +document.getElementById("otherCosts").value || 0;
+    const tuition = parseFloat(document.getElementById('tuition').value) || 0;
+    const grants = parseFloat(document.getElementById('grants').value) || 0;
+    const otherCosts = parseFloat(document.getElementById('otherCosts').value) || 0;
     const netCost = tuition + otherCosts - grants;
-    document.getElementById("netCostResult").textContent = `Estimated Net Cost: $${netCost.toFixed(2)}`;
+    document.getElementById('netCostResult').textContent = `Estimated Net Cost: $${netCost.toFixed(2)}`;
   }
 
-  // 2. Loan Estimator (simple monthly payment)
   function calculateLoan() {
-    const P = +document.getElementById("loanAmount").value || 0;
-    const r = (+document.getElementById("interestRate").value || 0) / 100 / 12;
-    const n = (+document.getElementById("loanTerm").value || 0) * 12;
+    const P = parseFloat(document.getElementById('loanAmount').value) || 0;
+    const r = (parseFloat(document.getElementById('interestRate').value) || 0) / 100 / 12;
+    const n = (parseInt(document.getElementById('loanTerm').value) || 0) * 12;
+
     if (r === 0) {
       var payment = P / n;
     } else {
-      var payment = P * r / (1 - Math.pow(1 + r, -n));
+      var payment = (P * r) / (1 - Math.pow(1 + r, -n));
     }
-    const total = payment * n;
-    document.getElementById("loanResult").textContent =
-      `Monthly Payment: $${payment.toFixed(2)}, Total Repayment: $${total.toFixed(2)}`;
+    document.getElementById('loanResult').textContent = `Monthly Payment: $${payment.toFixed(2)}`;
   }
 
-  // 3. Budget Builder
   function calculateBudget() {
-    const income = +document.getElementById("monthlyIncome").value || 0;
-    const expenses = +document.getElementById("monthlyExpenses").value || 0;
-    const surplus = income - expenses;
-    let msg = surplus >= 0 ? `You have $${surplus.toFixed(2)} left after expenses.` : `You are overspending by $${(-surplus).toFixed(2)}!`;
-    document.getElementById("budgetResult").textContent = msg;
+    const income = parseFloat(document.getElementById('monthlyIncome').value) || 0;
+    const expenses = parseFloat(document.getElementById('monthlyExpenses').value) || 0;
+    const remainder = income - expenses;
+    const message = remainder >= 0 ? 
+      `You are saving $${remainder.toFixed(2)} per month.` :
+      `You are overspending by $${Math.abs(remainder).toFixed(2)} per month.`;
+    document.getElementById('budgetResult').textContent = message;
   }
 
-  // 4. Spending Analyzer
   function analyzeSpending() {
-    const total = +document.getElementById("totalSpending").value || 0;
-    const entertainment = +document.getElementById("entertainmentSpending").value || 0;
+    const total = parseFloat(document.getElementById('totalSpending').value) || 0;
+    const entertainment = parseFloat(document.getElementById('entertainmentSpending').value) || 0;
     const percent = total === 0 ? 0 : (entertainment / total) * 100;
-    document.getElementById("spendingResult").textContent =
-      `Entertainment spending is ${percent.toFixed(1)}% of your total spending.`;
+    let advice = '';
+    if (percent > 30) {
+      advice = 'Consider reducing entertainment spending.';
+    } else {
+      advice = 'Entertainment spending is within a reasonable range.';
+    }
+    document.getElementById('spendingResult').textContent = `Entertainment is ${percent.toFixed(1)}% of total spending. ${advice}`;
   }
 
-  // 5. Campus Saver
   function calculateCampusSaver() {
-    const expense = +document.getElementById("campusExpense").value || 0;
-    const days = +document.getElementById("campusDays").value || 0;
-    const total = expense * days;
-    document.getElementById("campusSaverResult").textContent = `Total Campus Expense: $${total.toFixed(2)}`;
+    const daily = parseFloat(document.getElementById('campusExpense').value) || 0;
+    const days = parseInt(document.getElementById('campusDays').value) || 0;
+    const total = daily * days;
+    document.getElementById('campusSaverResult').textContent = `Total Campus Spending: $${total.toFixed(2)}`;
   }
 
-  // 6. Debt Decoder
   function calculateDebt() {
-    const debt = +document.getElementById("totalDebt").value || 0;
-    const payment = +document.getElementById("monthlyPayment").value || 0;
-    const rate = (+document.getElementById("debtInterestRate").value || 0) / 100 / 12;
-    if(payment <= debt * rate) {
-      document.getElementById("debtResult").textContent = "Payment too low to reduce debt.";
+    const debt = parseFloat(document.getElementById('totalDebt').value) || 0;
+    const payment = parseFloat(document.getElementById('monthlyPayment').value) || 0;
+    const rate = (parseFloat(document.getElementById('debtInterestRate').value) || 0) / 100 / 12;
+    if (payment <= debt * rate) {
+      document.getElementById('debtResult').textContent = 'Monthly payment too low to cover interest. Debt will grow.';
       return;
     }
-    let months = 0;
-    let balance = debt;
-    while(balance > 0 && months < 600) {
-      balance = balance * (1 + rate) - payment;
-      months++;
-    }
-    document.getElementById("debtResult").textContent =
-      months === 600 ? "Debt will not be paid off within 50 years at this rate." : `Debt will be paid off in about ${months} months (${(months/12).toFixed(1)} years).`;
+    const months = Math.log(payment / (payment - debt * rate)) / Math.log(1 + rate);
+    document.getElementById('debtResult').textContent = `Estimated payoff time: ${Math.ceil(months)} months.`;
   }
 
-  // 7. Salary Planner
   function calculateSalary() {
-    const wage = +document.getElementById("hourlyWage").value || 0;
-    const hours = +document.getElementById("hoursPerWeek").value || 0;
-    const monthly = wage * hours * 4;
-    const yearly = monthly * 12;
-    document.getElementById("salaryResult").textContent = `Estimated monthly income: $${monthly.toFixed(2)} | Yearly income: $${yearly.toFixed(2)}`;
+    const wage = parseFloat(document.getElementById('hourlyWage').value) || 0;
+    const hours = parseFloat(document.getElementById('hoursPerWeek').value) || 0;
+    const weekly = wage * hours;
+    const monthly = weekly * 4.33;
+    document.getElementById('salaryResult').textContent = `Estimated Monthly Income: $${monthly.toFixed(2)}`;
   }
 
-  // 8. Credit Coach
   function calculateCredit() {
-    const balance = +document.getElementById("creditBalance").value || 0;
-    const limit = +document.getElementById("creditLimit").value || 1; // avoid div by zero
-    const payment = +document.getElementById("creditPayment").value || 0;
+    const balance = parseFloat(document.getElementById('creditBalance').value) || 0;
+    const limit = parseFloat(document.getElementById('creditLimit').value) || 1;
+    const payment = parseFloat(document.getElementById('creditPayment').value) || 0;
     const utilization = (balance / limit) * 100;
-    let tips = "";
-    if(utilization > 30) tips = "High credit utilization! Aim below 30%.";
-    else tips = "Good credit utilization.";
-    document.getElementById("creditResult").textContent = 
-      `Credit utilization: ${utilization.toFixed(1)}%. ${tips} Payment: $${payment.toFixed(2)} per month.`;
+    let advice = '';
+    if (utilization > 30) {
+      advice = 'High utilization! Try to pay down your balance.';
+    } else {
+      advice = 'Good credit utilization.';
+    }
+    document.getElementById('creditResult').textContent = `Credit Utilization: ${utilization.toFixed(1)}%. ${advice}`;
   }
 
-  // 9. Textbook Calculator
   function calculateTextbookCost() {
-    const count = +document.getElementById("textbookCount").value || 0;
-    const cost = +document.getElementById("textbookCost").value || 0;
+    const count = parseInt(document.getElementById('textbookCount').value) || 0;
+    const cost = parseFloat(document.getElementById('textbookCost').value) || 0;
     const total = count * cost;
-    document.getElementById("textbookResult").textContent = `Estimated total textbook cost: $${total.toFixed(2)}`;
+    document.getElementById('textbookResult').textContent = `Total Textbook Cost: $${total.toFixed(2)}`;
   }
 
-  // 10. Savings Goal
   function calculateSavingsGoal() {
-    const target = +document.getElementById("savingsTarget").value || 0;
-    const monthly = +document.getElementById("monthlySaving").value || 1; // avoid zero div
-    const months = target / monthly;
-    document.getElementById("savingsGoalResult").textContent = `You will reach your goal in approximately ${Math.ceil(months)} months.`;
+    const target = parseFloat(document.getElementById('savingsTarget').value) || 0;
+    const monthly = parseFloat(document.getElementById('monthlySaving').value) || 1;
+    const months = Math.ceil(target / monthly);
+    document.getElementById('savingsGoalResult').textContent = `Time to reach goal: ${months} months.`;
   }
 
-  // 11. Financial Aid Finder (Mock result)
   function findFinancialAid() {
-    const gpa = +document.getElementById("aidGPA").value || 0;
-    const income = +document.getElementById("aidIncome").value || 0;
+    const gpa = parseFloat(document.getElementById('aidGPA').value) || 0;
+    const income = parseFloat(document.getElementById('aidIncome').value) || 0;
+
     let scholarships = [];
-    if(gpa >= 3.5) scholarships.push("Academic Excellence Scholarship");
-    if(income < 30000) scholarships.push("Low Income Support Grant");
-    if(scholarships.length === 0) scholarships.push("No scholarships found. Try broadening criteria.");
-    document.getElementById("financialAidResult").innerHTML = `<ul>${scholarships.map(s => `<li>${s}</li>`).join("")}</ul>`;
+
+    if (gpa >= 3.5 && income < 50000) {
+      scholarships.push('Academic Excellence Scholarship');
+    }
+    if (income < 30000) {
+      scholarships.push('Low Income Support Grant');
+    }
+    if (gpa < 2.5) {
+      scholarships.push('Community Service Scholarship');
+    }
+    if (scholarships.length === 0) {
+      scholarships.push('No matching scholarships found. Check local and college resources.');
+    }
+
+    document.getElementById('financialAidResult').innerHTML = 'Possible Scholarships:<br>' + scholarships.join('<br>');
   }
 
-  // 12. Part-Time Work
-  function calculatePartTimeIncome() {
-    const wage = +document.getElementById("ptHourlyWage").value || 0;
-    const hours = +document.getElementById("ptHours").value || 0;
-    const monthly = wage * hours * 4;
-    document.getElementById("partTimeResult").textContent = `Estimated monthly income: $${monthly.toFixed(2)}`;
+  function calculatePartTime() {
+    const hours = parseFloat(document.getElementById('workHours').value) || 0;
+    const wage = parseFloat(document.getElementById('workWage').value) || 0;
+    const weeklyIncome = hours * wage;
+    document.getElementById('partTimeResult').textContent = `Estimated Weekly Income: $${weeklyIncome.toFixed(2)}`;
   }
 
-  // 13. Meal Plan
   function calculateMealPlan() {
-    const cost = +document.getElementById("mealCost").value || 0;
-    const meals = +document.getElementById("mealsPerWeek").value || 0;
-    const monthly = cost * meals * 4;
-    document.getElementById("mealPlanResult").textContent = `Estimated monthly meal cost: $${monthly.toFixed(2)}`;
+    const meals = parseInt(document.getElementById('mealsPerWeek').value) || 0;
+    const cost = parseFloat(document.getElementById('mealCost').value) || 0;
+    const total = meals * cost;
+    document.getElementById('mealPlanResult').textContent = `Estimated Weekly Meal Cost: $${total.toFixed(2)}`;
   }
 
-  // 14. Transportation
   function calculateTransportation() {
-    const cost = +document.getElementById("commuteCost").value || 0;
-    const days = +document.getElementById("commuteDays").value || 0;
-    const monthly = cost * days;
-    document.getElementById("transportationResult").textContent = `Estimated monthly transportation cost: $${monthly.toFixed(2)}`;
+    const cost = parseFloat(document.getElementById('transportCost').value) || 0;
+    const usePublic = document.getElementById('publicTransport').value === 'yes';
+    let message = `Monthly Transportation Cost: $${cost.toFixed(2)}.`;
+    if (usePublic) {
+      message += ' Using public transportation can save money.';
+    } else {
+      message += ' Consider carpooling or biking to save more.';
+    }
+    document.getElementById('transportationResult').textContent = message;
   }
 
-  // 15. Subscription Tracker
-  function calculateSubscription() {
-    const count = +document.getElementById("subCount").value || 0;
-    const cost = +document.getElementById("subCost").value || 0;
-    const monthly = count * cost;
-    document.getElementById("subscriptionResult").textContent = `Total monthly subscription cost: $${monthly.toFixed(2)}`;
+  function calculateSubscriptions() {
+    const count = parseInt(document.getElementById('subCount').value) || 0;
+    const cost = parseFloat(document.getElementById('subCost').value) || 0;
+    const total = count * cost;
+    document.getElementById('subscriptionResult').textContent = `Monthly Subscription Cost: $${total.toFixed(2)}`;
   }
 
-  // 16. Internship Value
-  function calculateInternshipValue() {
-    const stipend = +document.getElementById("internStipend").value || 0;
-    const months = +document.getElementById("internMonths").value || 0;
-    const total = stipend * months;
-    document.getElementById("internshipResult").textContent = `Total internship stipend: $${total.toFixed(2)}`;
+  function calculateInternship() {
+    const stipend = parseFloat(document.getElementById('internStipend').value) || 0;
+    const weeks = parseInt(document.getElementById('internWeeks').value) || 0;
+    const total = stipend * weeks;
+    document.getElementById('internshipResult').textContent = `Total Internship Income: $${total.toFixed(2)}`;
   }
 
-  // 17. Emergency Fund
   function calculateEmergencyFund() {
-    const expenses = +document.getElementById("emergencyExpenses").value || 0;
-    const months = +document.getElementById("emergencyMonths").value || 0;
-    const total = expenses * months;
-    document.getElementById("emergencyFundResult").textContent = `Recommended emergency fund: $${total.toFixed(2)}`;
+    const expenses = parseFloat(document.getElementById('emergencyExpenses').value) || 0;
+    const months = parseInt(document.getElementById('emergencyMonths').value) || 1;
+    const fund = expenses * months;
+    document.getElementById('emergencyFundResult').textContent = `Emergency Fund Goal: $${fund.toFixed(2)}`;
   }
 
-  // Show first calculator by default on load
-  window.onload = () => {
-    buttons[0].click();
-  }
+  // Show the first calculator by default
+  document.querySelector('.buttons button').click();
+
 </script>
 
 </body>
